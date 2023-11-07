@@ -5,7 +5,8 @@
   "main": "dist/src/index.js",
   "scripts": {
     "build": "forge build && tsc",
-    "test": "node ./test/client.mjs"
+    "test": "node ./test/client.mjs",
+    "test:redstone": "node ./test/redstone.mjs"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/Synthetixio/erc7412#readme",
   "dependencies": {
+    "@redstone-finance/evm-connector": "^0.3.6",
     "@usecannon/cli": "^2.5.0",
     "node-fetch": "^2.6.12",
     "typechain": "^8.3.1",
