@@ -8,14 +8,13 @@ contract ERC7412RedstoneFeed is IERC7412, PrimaryProdDataServiceConsumerBase {
 
     bytes32 constant ORACLE_ID = bytes32("REDSTONE");
     bytes32 constant FEED_ID = bytes32("BTC"); 
-    string constant DATA_SERVICE_ID = "redstone-primary-prod";
 
     // 1 hour
     uint256 constant TTL = 3600;
     uint256 lastTimestamp = 0;
     uint256 latestAnswer = 0;
 
-	function oracleId() pure external returns (bytes32) {
+    function oracleId() pure external returns (bytes32) {
         return ORACLE_ID;
     }
 
@@ -27,16 +26,10 @@ contract ERC7412RedstoneFeed is IERC7412, PrimaryProdDataServiceConsumerBase {
         if(latestAnswer != 0 && block.timestamp - lastTimestamp < TTL) {
             return latestAnswer;
         }
-
-        revert OracleDataRequired(address(this), abi.encode(DATA_SERVICE_ID, FEED_ID));
+        revert OracleDataRequired(address(this), abi.encode(FEED_ID));
     }
 
-	/**
-	 * @dev Upon resolving the oracle query, the client should call this function to post the data to the
-	 * blockchain.
-	 * @param signedOffchainData The data that was returned from the off-chain interface, signed by the oracle.
-	 */
-	function fulfillOracleQuery(bytes calldata signedOffchainData) payable external {
+    function fulfillOracleQuery(bytes calldata signedOffchainData) payable external {
         signedOffchainData; // is used in getOracleNumericValueFromTxMsg
         latestAnswer = getOracleNumericValueFromTxMsg(FEED_ID);
         lastTimestamp = block.timestamp;
