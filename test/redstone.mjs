@@ -18,7 +18,7 @@ async function generate7412CompatibleCall(
     functionName
 ) {
     const adapters = [];
-    adapters.push(new RedstoneAdapter('redstone-primary-prod'));
+    adapters.push(new RedstoneAdapter());
 
     const converter = new eip7412.EIP7412(adapters, multicallFunc);
 
