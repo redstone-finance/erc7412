@@ -3,11 +3,6 @@ import * as viem from "viem";
 import { Adapter } from "../adapter";
 
 export class RedstoneAdapter implements Adapter {
-  private cachedParams: Record<
-    string,
-    { dataServiceId: string; uniqueSignersCount: number } | undefined
-  > = {};
-
   getOracleId(): string {
     return "REDSTONE";
   }
@@ -37,10 +32,6 @@ export class RedstoneAdapter implements Adapter {
     client: viem.Client,
     contractAddress: viem.Address
   ): Promise<{ dataServiceId: string; uniqueSignersCount: number }> {
-    if (this.cachedParams[contractAddress]) {
-      return this.cachedParams[contractAddress]!;
-    }
-
     const dataServiceIdResponse = await client.request({
       method: "eth_call",
       params: [
@@ -68,12 +59,7 @@ export class RedstoneAdapter implements Adapter {
       .decodeAbiParameters([{ type: "uint8" }], uniqueSignersCountResponse)
       .at(0) as number;
 
-    this.cachedParams[contractAddress] = {
-      dataServiceId,
-      uniqueSignersCount,
-    };
-
-    return this.cachedParams[contractAddress]!;
+    return { uniqueSignersCount, dataServiceId };
   }
 }
 
