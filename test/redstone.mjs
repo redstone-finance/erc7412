@@ -33,7 +33,7 @@ async function makeTestEnv() {
 
     const info = await build({
         provider: getProvider(node),
-        packageDefinition: { name: "erc7412Redstone", version: "0.0.4" },
+        packageDefinition: { name: "erc7412Redstone", version: "0.0.5" },
         wipe: true,
         getArtifact: getFoundryArtifact,
         def: new ChainDefinition({

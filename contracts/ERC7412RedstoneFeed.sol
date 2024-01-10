@@ -26,7 +26,11 @@ contract ERC7412RedstoneFeed is IERC7412, PrimaryProdDataServiceConsumerBase {
         if (latestAnswer != 0 && block.timestamp - lastTimestamp < TTL) {
             return latestAnswer;
         }
-        revert OracleDataRequired(address(this), abi.encode(FEED_ID));
+
+        revert OracleDataRequired(
+            address(this),
+            abi.encode(FEED_ID, getUniqueSignersThreshold(), getDataServiceId())
+        );
     }
 
     function fulfillOracleQuery(bytes calldata signedOffchainData) payable external {
