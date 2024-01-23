@@ -133,8 +133,8 @@ async function runRedstoneExample() {
 
     console.log("Multicall transaction hash: " + hash);
 
-    await client.waitForTransactionReceipt({ hash })
-    console.log("Multicall transaction mined");
+    const receipt = await client.waitForTransactionReceipt({ hash })
+    console.log(`Multicall transaction mined gasUsed=${receipt.gasUsed}`);
     const res = await client
         .readContract({
             address: redstoneFeedAddress,
