@@ -43,8 +43,8 @@ async function makeTestEnv() {
                 Multicall: {
                     artifact: "Multicall3_1",
                 },
-                ERC7412RedstoneFeed: {
-                    artifact: "ERC7412RedstoneFeed",
+                RedstoneBTCFeed: {
+                    artifact: "RedstoneBTCFeed",
                 },
             },
         }),
@@ -58,9 +58,9 @@ async function runRedstoneExample() {
 
     const senderAddr = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
 
-    const redstoneFeedAddress = netInfo.outputs.contracts.ERC7412RedstoneFeed.address;
+    const redstoneFeedAddress = netInfo.outputs.contracts.RedstoneBTCFeed.address;
     const redstoneFeedCallData = viem.encodeFunctionData({
-        abi: netInfo.outputs.contracts.ERC7412RedstoneFeed.abi,
+        abi: netInfo.outputs.contracts.RedstoneBTCFeed.abi,
         functionName: "getLatestValue",
         args: [],
     });
@@ -138,7 +138,7 @@ async function runRedstoneExample() {
     const res = await client
         .readContract({
             address: redstoneFeedAddress,
-            abi: netInfo.outputs.contracts.ERC7412RedstoneFeed.abi,
+            abi: netInfo.outputs.contracts.RedstoneBTCFeed.abi,
             functionName: "getLatestValue",
             args: [],
         });
