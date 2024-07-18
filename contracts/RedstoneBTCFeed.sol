@@ -9,5 +9,9 @@ contract RedstoneBTCFeed is ERC7412RedstoneFeed {
 
   function getSingleDataFeedId() public override view virtual returns (bytes32) {
     return FEED_ID;  
-  }  
-} 
+  }
+
+  function getTTL() internal override pure returns (uint256){
+    return 3600;
+  }
+}

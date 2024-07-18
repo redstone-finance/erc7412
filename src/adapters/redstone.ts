@@ -7,13 +7,15 @@ import {
 } from "@redstone-finance/sdk";
 
 export class RedstoneAdapter implements Adapter {
+  constructor(private readonly cacheServiceUrls?: string[]) {}
+
   getOracleId(): string {
     return "REDSTONE";
   }
 
   async fetchOffchainData(
-    client: viem.Client,
-    requester: viem.Address,
+    _client: viem.Client,
+    _requester: viem.Address,
     data: viem.Hex
   ): Promise<viem.Hex> {
     const [feedId, uniqueSignersCount, dataServiceId] =
@@ -32,6 +34,7 @@ export class RedstoneAdapter implements Adapter {
       dataFeeds: [bytes32ToString(feedId)],
       dataServiceId,
       uniqueSignersCount,
+      urls: this.cacheServiceUrls,
     });
 
     const signedRedstonePayload = await new DataPackagesWrapper(

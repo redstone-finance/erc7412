@@ -4,18 +4,22 @@ pragma solidity ^0.8.12;
 import {IERC7412} from '../IERC7412.sol';
 import {SinglePriceFeedAdapterV2} from './SinglePriceFeedAdapterV2.flatten.sol';
 
+// TODO: review Jakub and Alex
+
  abstract contract ERC7412RedstoneFeed is IERC7412, SinglePriceFeedAdapterV2 {
     bytes32 constant ORACLE_ID = bytes32("REDSTONE");
-    uint256 constant TTL = 3600;
+
+    function getTTL() view internal virtual returns (uint256);
    
     function oracleId() pure external returns (bytes32) {
         return ORACLE_ID;
     }
 
+    // jak w price feed
     function getLatestValue() view external returns (uint256) {
-        uint256 latestAnswer = getValueForDataFeedUnsafe(getSingleDataFeedId());
+        uint256 latestAnswer = getValueForDataFeed(getSingleDataFeedId());
         uint256 lastTimestamp = getBlockTimestampFromLatestUpdate();
-        if (latestAnswer != 0 && block.timestamp - lastTimestamp < TTL) {
+        if (block.timestamp - lastTimestamp < getTTL()) {
             return latestAnswer;
         }
 
